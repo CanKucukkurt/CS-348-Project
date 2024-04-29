@@ -1,0 +1,26 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Management System</title>
+</head>
+<body>
+    <header>
+        <h1>Library Management System</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('add_book') }}">Add Book</a></li>
+            <li><a href="{{ url_for('authors') }}">Authors</a></li>
+            <li><a href="{{ url_for('delete_book') }}">Delete Book</a></li>
+            <li><a href="{{ url_for('borrow_book') }}">Borrow Book</a></li>
+            <li><a href="{{ url_for('list_books') }}">List Books</a></li>
+            <li><a href="{{ url_for('users') }}">Users</a></li>
+            <li><a href="{{ url_for('edit_book') }}">Edit Book</a></li>
+            <li><a href="{{ url_for('return_book') }}">Return Book</a></li>
+        </ul>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

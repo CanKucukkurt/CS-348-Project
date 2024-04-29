@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Delete Book</h1>
+    <form action="{{ url_for('delete_book') }}" method="post">
+        <label for="book">Select Book:</label>
+        <select id="book" name="book_id">
+            {% for book in books %}
+                <option value="{{ book.book_id }}">{{ book.title }} ({{ book.author.first_name }} {{ book.author.last_name }})</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Delete Book</button>
+    </form>
+{% endblock %}

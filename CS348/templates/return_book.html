@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Return Book</h1>
+    {% if loans %}
+        <form method="POST">
+            <label for="loan_id">Select a book to return:</label>
+            <select name="loan_id" id="loan_id" required>
+                {% for loan in loans %}
+                    <option value="{{ loan.loan_id }}">{{ loan.book.title }} (Borrowed by: {{ loan.borrower.first_name }} {{ loan.borrower.last_name }})</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input type="submit" value="Return Book">
+        </form>
+    {% else %}
+        <p>No borrowed books found.</p>
+    {% endif %}
+{% endblock %}

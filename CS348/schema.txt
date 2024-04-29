@@ -1,0 +1,41 @@
+erDiagram
+    AUTHOR {
+        INT author_id PK
+        VARCHAR(50) first_name
+        VARCHAR(50) last_name
+    }
+
+    PUBLISHER {
+        INT publisher_id PK
+        VARCHAR(100) name
+        VARCHAR(200) address
+    }
+
+    BOOK {
+        INT book_id PK
+        VARCHAR(200) title
+        INT author_id FK
+        INT publisher_id FK
+        YEAR publication_year`
+    }
+
+    BORROWER {
+        INT borrower_id PK
+        VARCHAR(50) first_name
+        VARCHAR(50) last_name
+        VARCHAR(100) email
+    }
+
+    LOAN {
+        INT loan_id PK
+        INT book_id FK
+        INT borrower_id FK
+        DATE borrowed_date
+        DATE due_date
+        DATE returned_date
+    }
+
+    BOOK }o--|| AUTHOR : "written by"
+    BOOK }o--|| PUBLISHER : "published by"
+    LOAN }o--|| BOOK : "involves"
+    LOAN }o--|| BORROWER : "borrowed by"

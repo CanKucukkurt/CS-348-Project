@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Borrow Book</h1>
+    <form action="{{ url_for('borrow_book') }}" method="post">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="book">Select Book:</label>
+        <select id="book" name="book_id">
+            {% for book in books %}
+                {% if book.status == 'available' %}
+                    <option value="{{ book.book_id }}">{{ book.title }} ({{ book.author.first_name }} {{ book.author.last_name }})</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <button type="submit">Borrow Book</button>
+    </form>
+{% endblock %}
