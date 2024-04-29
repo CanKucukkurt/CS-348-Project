@@ -1,0 +1,71 @@
+Indexes and Supported Queries/Reports
+
+Index: idx_book_status
+    Table: book
+    Columns: status
+
+    Supported Queries:
+
+        Query: Book.query.filter(Book.status == 'available').order_by(Book.status).all()
+        Location: list_books route
+        Purpose: Retrieves available books and orders them by status.
+
+        Query: Book.query.filter(Book.status == 'borrowed').order_by(Book.status).all()
+        Location: list_books route
+        Purpose: Retrieves borrowed books and orders them by status.
+
+        Query: Book.query.order_by(Book.status).all()
+        Location: list_books route
+        Purpose: Retrieves all books and orders them by status.
+
+    Supported Reports:
+
+        Report: Book Listing
+        Location: list_books.html template
+        Purpose: Displays a list of books based on their availability status.
+
+
+Index: idx_author_last_name
+    Table: author
+    Columns: last_name
+
+    Supported Queries:
+
+        Query: SELECT author_id FROM author WHERE first_name = :first_name AND last_name = :last_name ORDER BY last_name
+        Location: add_book route
+        Purpose: Checks if an author exists based on first name and last name, and orders the results by last name.
+
+        Query: SELECT * FROM author ORDER BY last_name
+        Location: authors route
+        Purpose: Retrieves all authors and orders them by last name.
+
+        Query: SELECT a.author_id, a.first_name, a.last_name, b.book_id, b.title, b.publication_year FROM author a LEFT JOIN book b ON a.author_id = b.author_id WHERE a.author_id = :author_id ORDER BY a.last_name
+        Location: authors route
+        Purpose: Retrieves a specific author and their associated books, and orders the results by the author's last name.
+
+    Supported Reports:
+
+        Report: Author Listing
+        Location: authors.html template
+        Purpose: Displays a list of authors ordered by their last name.
+        
+        Report: Author Details
+        Location: authors.html template
+        Purpose: Displays details of a specific author and their associated books.
+
+
+Index: idx_loan_book_id
+    Table: loan
+    Columns: book_id
+
+    Supported Queries:
+
+        Query: Loan.query.filter(Loan.returned_date == None).order_by(Loan.book_id).all()
+        Location: return_book route
+        Purpose: Retrieves loans without a returned date and orders them by book ID.
+
+    Supported Reports:
+
+        Report: Loan Listing
+        Location: return_book.html template
+        Purpose: Displays a list of loans that have not been returned, ordered by book ID.

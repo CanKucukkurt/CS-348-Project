@@ -73,6 +73,7 @@ def add_book():
             SELECT author_id 
             FROM author
             WHERE first_name = :first_name AND last_name = :last_name
+            ORDER BY last_name
         """)
         author_result = db.session.execute(author_query, {'first_name': author_first_name, 'last_name': author_last_name}).fetchone()
         if not author_result:
@@ -114,6 +115,7 @@ def authors():
             FROM author a
             LEFT JOIN book b ON a.author_id = b.author_id
             WHERE a.author_id = :author_id
+            ORDER BY a.last_name
         """)
         result = db.session.execute(stmt, {'author_id': author_id}).fetchall()
         if result:
@@ -129,7 +131,7 @@ def authors():
     else:
         selected_author = None
 
-    stmt = text("SELECT * FROM author")
+    stmt = text("SELECT * FROM author ORDER BY last_name")
     authors = db.session.execute(stmt).fetchall()
 
     return render_template('authors.html', authors=authors, selected_author=selected_author)
@@ -206,13 +208,13 @@ def list_books():
     status_label = 'All Books'
 
     if status == 'available':
-        books = Book.query.filter(Book.status == 'available').all()
+        books = Book.query.filter(Book.status == 'available').order_by(Book.status).all()
         status_label = 'Available Books'
     elif status == 'borrowed':
-        books = Book.query.filter(Book.status == 'borrowed').all()
+        books = Book.query.filter(Book.status == 'borrowed').order_by(Book.status).all()
         status_label = 'Borrowed Books'
     else:
-        books = Book.query.all()
+        books = Book.query.order_by(Book.status).all()
 
     total_books = Book.query.count()
     borrowed_books = Book.query.filter(Book.status == 'borrowed').count()
@@ -232,7 +234,7 @@ def return_book():
             db.session.commit()
             return redirect(url_for('list_books'))
     
-    loans = Loan.query.filter(Loan.returned_date == None).all()
+    loans = Loan.query.filter(Loan.returned_date == None).order_by(Loan.book_id).all()
     return render_template('return_book.html', loans=loans)
 
 
